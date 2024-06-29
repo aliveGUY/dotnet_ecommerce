@@ -27,10 +27,11 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("front", policyBuilder =>
     {
-        policyBuilder.WithOrigins("http://localhost:3000");
-        policyBuilder.AllowAnyHeader();
-        policyBuilder.AllowAnyMethod();
-        policyBuilder.AllowCredentials();
+        policyBuilder
+            .WithOrigins("http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
@@ -44,8 +45,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.MapControllers();
 app.UseCors("front");
-app.Run();
+app.MapControllers();
 
+app.Run();
