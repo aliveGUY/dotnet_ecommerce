@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("front", policyBuilder =>
     {
         policyBuilder
-            .WithOrigins("http://localhost:3000")
+            .WithOrigins("http://localhost:3000", "https://dotnet-ecommerce-1.onrender.com")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
