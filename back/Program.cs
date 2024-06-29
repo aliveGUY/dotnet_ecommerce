@@ -23,6 +23,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("front", policyBuilder =>
+    {
+        policyBuilder.WithOrigins("http://localhost:3000");
+        policyBuilder.AllowAnyHeader();
+        policyBuilder.AllowAnyMethod();
+        policyBuilder.AllowCredentials();
+    });
+});
 
 var app = builder.Build();
 
@@ -36,6 +46,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
-
+app.UseCors("front");
 app.Run();
 
