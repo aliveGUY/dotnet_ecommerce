@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   db:
+    container_name: service-database
     image: postgres:latest
     env_file:
       - .env
@@ -9,6 +10,28 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+  
+  migration:
+    container_name: service-migrations
+    image: service-migrations
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: migrations
+    depends_on:
+      - db
+
+  webapi:
+    container_name: service-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db 
 
 volumes:
   pgdata:
