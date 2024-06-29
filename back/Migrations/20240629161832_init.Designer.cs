@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace back.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240629111518_init")]
+    [Migration("20240629161832_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -39,6 +39,9 @@ namespace back.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()

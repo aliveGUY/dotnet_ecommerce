@@ -1,4 +1,4 @@
-FROM postgres:latest
+FROM postgres:16.3-alpine
 
 EXPOSE 5432
 
@@ -14,7 +14,7 @@ RUN dotnet restore
 COPY . ./
 RUN dotnet publish -c Release -o out
 
-## Run migrations
+# Run migrations
 FROM build as migrations
 RUN dotnet tool install --global dotnet-ef
 ENV PATH="$PATH:/root/.dotnet/tools"

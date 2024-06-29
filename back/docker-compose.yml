@@ -2,18 +2,18 @@ version: '3.8'
 
 services:
   db:
-    container_name: service-database
-    image: postgres:latest
+    container_name: db
+    image: postgres:16.3-alpine
     env_file:
       - .env
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-  
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
   migration:
-    container_name: service-migrations
-    image: service-migrations
+    container_name: migration
     build:
       context: .
       dockerfile: Dockerfile
@@ -22,7 +22,7 @@ services:
       - db
 
   webapi:
-    container_name: service-api
+    container_name: webapi
     build:
       context: .
       dockerfile: Dockerfile
