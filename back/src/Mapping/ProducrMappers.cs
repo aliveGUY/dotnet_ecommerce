@@ -12,8 +12,10 @@ namespace api.Mappers
         Id = productModel.Id,
         Title = productModel.Title,
         Description = productModel.Description,
+        Policies = productModel.Policies,
         Price = productModel.Price,
         Characteristic = productModel.Characteristic,
+        Images = productModel.Images
       };
     }
 
@@ -23,8 +25,10 @@ namespace api.Mappers
       {
         Title = productDto.Title,
         Description = productDto.Description,
+        Policies = productDto.Policies,
         Price = productDto.Price,
-        Characteristic = productDto.Characteristic
+        Characteristic = productDto.Characteristic,
+        Images = productDto.Images
       };
     }
 
@@ -34,8 +38,10 @@ namespace api.Mappers
       {
         Title = productDto.Title,
         Description = productDto.Description,
+        Policies = productDto.Policies,
         Price = productDto.Price,
-        Characteristic = productDto.Characteristic
+        Characteristic = productDto.Characteristic,
+        Images = productDto.Images
       };
     }
   }
