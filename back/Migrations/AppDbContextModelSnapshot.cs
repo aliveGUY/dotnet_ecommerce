@@ -37,6 +37,13 @@ namespace back.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<List<byte[]>>("Images")
+                        .HasColumnType("bytea[]");
+
+                    b.Property<string>("Policies")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("Price")
                         .HasColumnType("integer");
 

@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace back.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240629161832_init")]
+    [Migration("20240630210035_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -37,6 +37,13 @@ namespace back.Migrations
                         .HasColumnType("hstore");
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<List<byte[]>>("Images")
+                        .HasColumnType("bytea[]");
+
+                    b.Property<string>("Policies")
                         .IsRequired()
                         .HasColumnType("text");
 
