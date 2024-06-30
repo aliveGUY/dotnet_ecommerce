@@ -7,6 +7,6 @@ namespace api.Dtos.Product
     public string Description { get; set; } = string.Empty;
     public string Policies { get; set; } = string.Empty;
     public Dictionary<string, string> Characteristic { get; set; } = [];
-    public List<byte[]>? Images { get; set; } = [];
+    public List<string>? Images { get; set; } = [];
   }
 }
