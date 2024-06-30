@@ -3,7 +3,7 @@ import image from '../../static/images/default-image.jpg'
 import { useNavigate } from "react-router-dom"
 
 const ProductCard = ({ product }) => {
-  const { title = 'Sample Text', description = 'N/A', price = 0, id = 0 } = product || {}
+  const { title = 'Sample Text', description = 'N/A', price = 0, id = 0, images = [] } = product || {}
 
   const navigate = useNavigate()
 
@@ -29,7 +29,7 @@ const ProductCard = ({ product }) => {
         component="img"
         height={{ sm: 402, lg: 486 }}
         width={{ sm: 335, lg: 405 }}
-        src={image}
+        src={images[0] || image}
       />
       <CardContent>
         <Stack direction="row" alignItems="center">

@@ -19,9 +19,11 @@ const ProductForm = ({ defaultProduct, onSubmit }) => {
 
   const _onSubmit = async (data) => {
     try {
-      const imageBase64Array = await Promise.all(
+      let imageBase64Array = await Promise.all(
         images.map((image) => readFileAsBase64(image))
-      );
+      )
+
+      imageBase64Array = imageBase64Array.map(code => `data:image/png;base64,${code}`)
 
       onSubmit && onSubmit({ ...data, images: imageBase64Array });
     } catch (error) {

@@ -13,6 +13,7 @@ const Product = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const [selectedDetail, setSelectedDetail] = useState(details[0])
+  const [selectedImage, setSelectedImage] = useState(image)
   const { data, isLoading, error } = useGetProductsByIdQuery(id)
   const [deleteProduct, { isLoading: deleteLoading, data: response }] = useDeleteProductMutation()
 
@@ -21,10 +22,16 @@ const Product = () => {
       navigate('/')
   }, [deleteLoading])
 
+  useEffect(() => {
+    if (!isLoading && data?.images?.length > 0) {
+      setSelectedImage(data?.images[0])
+    }
+  }, [isLoading])
+
   // if (isLoading) return 'Loading...'
   // if (error) return 'Error'
 
-  const { title = 'Sample Text', description = 'N/A', price = 0, characteristic = {} } = data || {}
+  const { title = 'Sample Text', description = 'N/A', policies = 'N/A', price = 0, characteristic = {}, images = [] } = data || {}
 
   return (
     <Container maxWidth="xl">
@@ -71,7 +78,7 @@ const Product = () => {
               component="img"
               width="100%"
               sx={{ aspectRatio: 1 }}
-              src={image}
+              src={selectedImage}
             />
             <Stack
               direction="row"
@@ -79,12 +86,24 @@ const Product = () => {
               spacing={2.2}
               pb={1}
             >
-              <Box
-                component="img"
-                width={85}
-                sx={{ aspectRatio: 1 }}
-                src={image}
-              />
+              {images.map((image, key) => (
+                <Box
+                  onClick={() => setSelectedImage(image)}
+                  key={key}
+                  component="img"
+                  width={85}
+                  sx={{ aspectRatio: 1, cursor: 'pointer' }}
+                  src={image}
+                />
+              ))}
+              {images.length === 0 && (
+                <Box
+                  component="img"
+                  width={85}
+                  sx={{ aspectRatio: 1 }}
+                  src={image}
+                />
+              )}
             </Stack>
           </Stack>
         </Grid>
@@ -93,6 +112,7 @@ const Product = () => {
           <Stack px={{ md: 8 }} spacing={2}>
             <Button variant="contained">Add To Cart</Button>
             <Button variant="outlined">Buy Now</Button>
+            <Button variant="outlined" onClick={() => deleteProduct(id)}>Remove</Button>
           </Stack>
         </Grid>
 
