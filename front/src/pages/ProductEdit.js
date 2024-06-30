@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/material"
 
 import { useGetProductsByIdQuery, useEditProductMutation } from "../state/api"
 
-import ProductForm from "../components/ProductFrom"
+import ProductForm from "../components/products/ProductFrom"
 
 const ProductEdit = () => {
   const { id } = useParams()

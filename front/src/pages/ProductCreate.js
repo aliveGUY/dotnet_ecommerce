@@ -1,16 +1,17 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { Stack, Typography } from "@mui/material"
+import { Box, Container, Stack, Typography } from "@mui/material"
 
 import { useCreateProductMutation } from "../state/api"
 
-import ProductForm from "../components/ProductFrom"
+import ProductForm from "../components/products/ProductFrom"
 
 const ProductCreate = () => {
   const navigate = useNavigate()
   const [createProduct, { isLoading, data }] = useCreateProductMutation()
 
   const handleSubmit = (formData) => {
+    console.log(formData)
     createProduct(formData)
   }
 
@@ -20,10 +21,21 @@ const ProductCreate = () => {
   }, [isLoading])
 
   return (
-    <Stack>
-      <Typography>Add new product</Typography>
-      <ProductForm onSubmit={handleSubmit} disable={isLoading} />
-    </Stack>
+    <Container maxWidth="xl">
+      <Stack direction="row" py={6}>
+        <Box width="100%">
+          <Box mr={3}>
+            <Typography variant="h4" mb={2} fontWeight="bold">Add new product</Typography>
+            <Box maxWidth={580}>
+              <Typography>Once you submit the form, your product will be available on our e-commerce platform. We recommend reviewing our policies to ensure compliance and maintain a positive experience for all users. Thank you for using our platform!</Typography>
+            </Box>
+          </Box>
+        </Box>
+        <Box width="100%">
+          <ProductForm onSubmit={handleSubmit} disable={isLoading} />
+        </Box>
+      </Stack>
+    </Container>
   )
 }
 

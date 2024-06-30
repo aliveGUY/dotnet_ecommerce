@@ -1,6 +1,7 @@
 import React from 'react'
 import { useGetProductsQuery } from '../state/api'
-import { Button, Card, CardActions, CardContent, Stack, Typography } from '@mui/material'
+import { Container, Stack, Typography } from '@mui/material'
+import ProductCard from '../components/products/ProductCard'
 
 function Home() {
   const { data, error, isLoading } = useGetProductsQuery()
@@ -9,19 +10,17 @@ function Home() {
   if (error) return 'Error'
 
   return (
-    <Stack direction="row">
-      {data.map((product, key) => (
-        <Card key={key}>
-          <CardContent>
-            <Typography>{product.title}</Typography>
-            <Typography>{product.description}</Typography>
-          </CardContent>
-          <CardActions>
-            <Button href={`/product/${product.id}`}>View</Button>
-          </CardActions>
-        </Card>
-      ))}
-    </Stack>
+    <Container maxWidth="xl">
+      <Stack py={5}>
+        <Typography variant="body1">Tagline</Typography>
+        <Typography variant="h4" fontWeight={800}>Products</Typography>
+        <Typography variant="subtitle2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. </Typography>
+      </Stack>
+
+      <Stack direction="row" useFlexGap flexWrap="wrap" spacing={6}>
+        {data.map((product, key) => <ProductCard key={key} product={product} />)}
+      </Stack>
+    </Container>
   )
 }
 
