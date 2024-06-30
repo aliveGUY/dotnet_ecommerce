@@ -17,7 +17,25 @@ const ProductForm = ({ defaultProduct, onSubmit }) => {
     formState: { errors },
   } = useForm()
 
-  const _onSubmit = (data) => onSubmit && onSubmit({ ...data, images })
+  const _onSubmit = async (data) => {
+    try {
+      const imageBase64Array = await Promise.all(
+        images.map((image) => readFileAsBase64(image))
+      );
+
+      onSubmit && onSubmit({ ...data, images: imageBase64Array });
+    } catch (error) {
+      console.error('Error reading images:', error);
+    }
+  };
+
+  const readFileAsBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
 
   const onAddCharacteristic = () => {
     setCharacteristic([..._characteristic, 'item_' + (_characteristic.length + 1)])
