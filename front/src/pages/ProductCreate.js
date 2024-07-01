@@ -8,10 +8,9 @@ import ProductForm from "../components/products/ProductFrom"
 
 const ProductCreate = () => {
   const navigate = useNavigate()
-  const [createProduct, { isLoading, data }] = useCreateProductMutation()
+  const [createProduct, { isLoading, data, error }] = useCreateProductMutation()
 
   const handleSubmit = (formData) => {
-    console.log(formData)
     createProduct(formData)
   }
 
@@ -22,17 +21,17 @@ const ProductCreate = () => {
 
   return (
     <Container maxWidth="xl">
-      <Stack direction="row" py={6}>
+      <Stack direction={{ md: 'row' }} py={6}>
         <Box width="100%">
           <Box mr={3}>
             <Typography variant="h4" mb={2} fontWeight="bold">Add new product</Typography>
-            <Box maxWidth={580}>
+            <Box maxWidth={580} display={{ xs: 'none', md: 'block' }}>
               <Typography>Once you submit the form, your product will be available on our e-commerce platform. We recommend reviewing our policies to ensure compliance and maintain a positive experience for all users. Thank you for using our platform!</Typography>
             </Box>
           </Box>
         </Box>
         <Box width="100%">
-          <ProductForm onSubmit={handleSubmit} disable={isLoading} />
+          <ProductForm onSubmit={handleSubmit} disable={isLoading} requestErrors={error?.data?.errors} />
         </Box>
       </Stack>
     </Container>

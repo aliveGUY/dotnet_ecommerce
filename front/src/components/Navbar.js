@@ -13,12 +13,18 @@ import {
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import MenuIcon from '@mui/icons-material/Menu'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const menuItems = ['Categories', 'Brands', 'Sales', 'Trends']
 
 const Navbar = () => {
+  const navigate = useNavigate()
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  const goToCreate = () => {
+    navigate("/product/new")
+    setMobileOpen(false)
+  }
 
   return (
     <AppBar position="static">
@@ -41,16 +47,18 @@ const Navbar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 1 }}>
-            <Stack direction="row" display={{ sm: 'none', md: 'flex' }} mx={3} spacing={2}>
+            <Stack direction="row" display={{ xs: 'none', md: 'flex' }} mx={3} spacing={2}>
               {menuItems.map((item, index) => (
                 <MenuItem key={index}>{item}</MenuItem>
               ))}
             </Stack>
           </Box>
 
-          <Stack direction="row" sx={{ flexGrow: 0 }} spacing={2}>
+          <Stack direction="row" sx={{ flexGrow: 0 }} spacing={2} alignItems="center">
             <Avatar />
-            <Button variant="contained" href="/product/new">Add Product</Button>
+            <Box display={{ xs: 'none', md: 'block' }}>
+              <Button variant="contained" href="/product/new">Add Product</Button>
+            </Box>
           </Stack>
         </Toolbar>
 
@@ -59,6 +67,7 @@ const Navbar = () => {
             {menuItems.map((item, index) => (
               <MenuItem key={index}>{item}</MenuItem>
             ))}
+            <MenuItem variant="contained" onClick={goToCreate}>Add Product</MenuItem>
           </Collapse>
         </Box>
       </Container>

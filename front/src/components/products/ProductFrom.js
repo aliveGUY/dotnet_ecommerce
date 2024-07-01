@@ -1,10 +1,11 @@
-import { Box, Button, Stack, Table, TableCell, TableRow, TextField, Typography } from '@mui/material'
-import { useState } from 'react'
+import { Box, Button, Stack, TextField, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import defaultImage from '../../static/images/default-image.jpg'
 import CloseIcon from '@mui/icons-material/Close'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 
-const ProductForm = ({ defaultProduct, onSubmit }) => {
+const ProductForm = ({ defaultProduct, onSubmit, requestErrors }) => {
   const { title = '', description = '', policies = '', price = '', characteristic = {} } = defaultProduct || {}
   const [_characteristic, setCharacteristic] = useState(Object.keys(characteristic))
   const [images, setImages] = useState([])
@@ -72,37 +73,60 @@ const ProductForm = ({ defaultProduct, onSubmit }) => {
     setImages(prev => prev.filter(_image => image !== _image))
   }
 
+  useEffect(() => {
+    if (requestErrors) {
+      Object.entries(requestErrors).map(([key, [value]]) => {
+        setError(key, { message: value })
+      })
+    }
+  }, [requestErrors])
+
+  console.log(errors)
+
   return (
     <form onSubmit={handleSubmit(_onSubmit)}>
       <Stack gap={3}>
-        <TextField {...register('title')} label="Title" defaultValue={title} />
-        <TextField {...register('description')} label="Description" defaultValue={description} />
+        <Stack>
+          <TextField {...register('title', { required: 'Title are required' })} label="Title" defaultValue={title} />
+          {errors.title && <Typography>{errors.title.message}</Typography>}
+        </Stack>
+        <Stack>
+          <TextField {...register('description', { required: 'Description are required' })} label="Description" defaultValue={description} />
+          {errors.description && <Typography>{errors.description.message}</Typography>}
+        </Stack>
 
         <Stack>
           <Stack direction="row" spacing={2} pl={2} alignItems="center">
             <Typography color="gray">Characteristics</Typography>
             <Button variant="outlined" onClick={onAddCharacteristic}>ADD +</Button>
           </Stack>
-          <Table>
+          <Stack py={_characteristic.length > 0 && 1} spacing={1}>
             {_characteristic.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell>
+              <Stack direction="row" alignItems="center" key={index}>
+                <Box width="100%">
                   <TextField value={item} onChange={(e) => onEditCharacteristicKey(item, e.target.value)} />
                   {errors.characteristic && <Typography>{errors.characteristic[item]?.message}</Typography>}
-                </TableCell>
-                <TableCell>
+                </Box>
+                <ChevronRightIcon />
+                <Box width="100%">
                   <TextField {...register(`characteristic.${item}`)} defaultValue={characteristic[item] || ''} />
-                </TableCell>
-                <TableCell>
-                  <Button variant="outlined" onClick={() => onRemoveCharacteristic(item)}>Remove -</Button>
-                </TableCell>
-              </TableRow>
+                </Box>
+                <Box width="100%" ml={3}>
+                  <Button variant="outlined" onClick={() => onRemoveCharacteristic(item)}>Remove</Button>
+                </Box>
+              </Stack>
             ))}
-          </Table>
+          </Stack>
         </Stack>
 
-        <TextField {...register('policies')} label="Policies" defaultValue={policies} />
-        <TextField {...register('price')} label="Price" defaultValue={price} />
+        <Stack>
+          <TextField {...register('policies', { required: 'Policies are required' })} label="Policies" defaultValue={policies} />
+          {errors.policies && <Typography>{errors.policies.message}</Typography>}
+        </Stack>
+        <Stack>
+          <TextField {...register('price', { required: 'Price are required' })} label="Price" defaultValue={price} />
+          {errors.price && <Typography>{errors.price.message}</Typography>}
+        </Stack>
 
         <Box>
           <Stack direction="row" spacing={2} pl={2} alignItems="center">
